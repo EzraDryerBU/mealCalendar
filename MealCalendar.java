@@ -29,12 +29,22 @@ public class MealCalendar {
 		try {
 			File file = new File(mealFile);
 			scanner = new Scanner(file);
+			while(scanner.hasNextLine()) {
+				String mealName = scanner.nextLine();
+				mealName = mealName.trim();
+				Meal meal = new Meal(mealName);
+				returnMeals.add(meal);
+			}
 			
 		}catch(FileNotFoundException e) {
-
+			System.out.println("I'm sorry, we could not find that file");
 		}		
 		
 		return returnMeals;
+	}
+	
+	public boolean addMeal(Meal m) {
+		return meals.add(m);
 	}
 
 	public LocalDateTime getTodaysDate() {
@@ -47,7 +57,8 @@ public class MealCalendar {
 	
 	public static void main(String[] args) {
 		MealCalendar mc = new MealCalendar("ListOfMeals");
-		System.out.print(mc.MEALLISTPATH);
+		//System.out.println(mc.MEALLISTPATH);
+		System.out.println(mc.meals.toString());
 		
 	}
 }
