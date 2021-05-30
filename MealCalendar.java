@@ -61,7 +61,7 @@ public class MealCalendar {
 			
 			if(menuRepeats != 0) {
 				for(int n=0; n<menuRepeats; n++) {
-					for(int i=0; i<numOfMeals; i++) {
+					for(int i=0; i<meals.size(); i++) {
 						nextMeals.add(meals.get(i));
 					}//inner for
 				}//outter for
@@ -92,5 +92,7 @@ public class MealCalendar {
 		MealCalendar mc = new MealCalendar("ListOfMeals");
 		System.out.println(mc.meals);
 		System.out.println(mc.now);
+		ArrayList<Meal> nextMeals = mc.getNextMeals(10);
+		System.out.println(nextMeals);
 	}
 }
