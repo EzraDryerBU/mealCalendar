@@ -22,7 +22,7 @@ public class MealCalendar {
 	}
 	
 	
-	public ArrayList<Meal> initMeals(String fileName){
+	public ArrayList<Meal> initMeals(String fileName) {
 		String mealFile = MEALLISTPATH + fileName + ".txt";
 		Scanner scanner;
 		ArrayList<Meal> returnMeals = new ArrayList<Meal>();
