@@ -19,6 +19,7 @@ public class MealCalendar {
 	public MealCalendar() {
 		meals = new ArrayList<Meal>();
 		now = LocalDateTime.now();
+
 	}
 	
 	
@@ -43,10 +44,42 @@ public class MealCalendar {
 		return returnMeals;
 	}
 	
-	public boolean addMeal(Meal m) {
-		return meals.add(m);
+	/* This method needs to be able to be used in two ways so far. It needs to be able to 
+	 * take a number that is the difference between the current date and the date the user specified,
+	 * and return all the meals between those two dates using that number. It also needs to be able to 
+	 * take an absolute number, and simply return that many meals. For both of these cases, the meals need
+	 * to 'wrap' back around if the number of specified meals is larher than the actual list of meals itself.
+	 */
+	public ArrayList<Meal> getNextMeals(int numOfMeals){
+		ArrayList<Meal> nextMeals = new ArrayList<Meal>();
+		
+		if(numOfMeals > meals.size()) {
+			
+			int menuRepeats = numOfMeals/meals.size(); //gets how many times we need to run thorugh the menu
+			//gets how many meals need to be added at the end, since the number of meals may not be evenly devided	
+			int lastMenu = numOfMeals%meals.size();
+			
+			if(menuRepeats != 0) {
+				for(int n=0; n<menuRepeats; n++) {
+					for(int i=0; i<numOfMeals; i++) {
+						nextMeals.add(meals.get(i));
+					}//inner for
+				}//outter for
+				if(lastMenu != 0) {
+					for(int i=0; i<lastMenu; i++) {
+						nextMeals.add(meals.get(i));
+					}//for
+				}//lastMenu if
+			}//repeats if
+		}else {
+			for(int i=0; i<numOfMeals; i++) {
+				nextMeals.add(meals.get(i));
+			}
+		}
+		
+		return nextMeals;
 	}
-
+	
 	public LocalDateTime getTodaysDate() {
 		return now;
 	}
@@ -57,8 +90,7 @@ public class MealCalendar {
 	
 	public static void main(String[] args) {
 		MealCalendar mc = new MealCalendar("ListOfMeals");
-		//System.out.println(mc.MEALLISTPATH);
-		System.out.println(mc.meals.toString());
-		
+		System.out.println(mc.meals);
+		System.out.println(mc.now);
 	}
 }
