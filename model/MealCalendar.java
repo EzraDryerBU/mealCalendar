@@ -92,6 +92,7 @@ public class MealCalendar {
 		System.out.println(mc.meals);
 		System.out.println(mc.now);
 		ArrayList<Meal> nextMeals = mc.getNextMeals(9);
+		Collections.shuffle(nextMeals);
 		System.out.println(nextMeals);
 	}
 }
