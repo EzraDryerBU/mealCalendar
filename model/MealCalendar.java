@@ -8,6 +8,8 @@ import java.util.*;
 public class MealCalendar {
 	private ArrayList<Meal> meals;
 	private LocalDateTime now;
+	private Date date;
+	//private int dayOfYear;
 	public final static String MEALLISTPATH = "src/" + MealCalendar.class.getPackageName().replaceFirst(".model","") + "/";
 	
 	public MealCalendar(String fileName) {
@@ -94,5 +96,9 @@ public class MealCalendar {
 		ArrayList<Meal> nextMeals = mc.getNextMeals(9);
 		Collections.shuffle(nextMeals);
 		System.out.println(nextMeals);
+		int i = mc.now.getDayOfWeek().getValue();
+		System.out.println(i);
+		mc.date = new Date(100,1,30);
+		System.out.println(mc.date);
 	}
 }
