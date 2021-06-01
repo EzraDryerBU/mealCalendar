@@ -3,6 +3,7 @@ package mealCalendar.view;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -21,10 +22,6 @@ public class MealCalendarGUI {
 	//private JComboBox<Integer> jComboDay;
 	//private JComboBox<Integer> jComboMonth;
 	//private JComboBox<Integer> jComboYear;
-	private JTextField nextXMealsInput;
-	private JButton nextXMealsButton;
-	private JButton nextMonthsMeals;
-	private JButton getRandomMeal;
 	private SpringLayout layout;
 	
 	
@@ -45,8 +42,20 @@ public class MealCalendarGUI {
 		panel.setLayout(layout);
 		panel.setSize(300,300);
 		
+		JLabel nextMealsLabel = new JLabel("Please input the amount of meals to retrieve here: ");
+		panel.add(nextMealsLabel);
+		layout.putConstraint(SpringLayout.NORTH, nextMealsLabel, 200, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, nextMealsLabel, 50, SpringLayout.WEST, panel);
+		
+		JButton nextXMealsButton = new JButton("Get Next X Amount of Meals");
+		//nextXMealsButton
+		panel.add(nextXMealsButton);
 		
 		
+		
+		JButton nextMonthsMeals;
+		JButton getRandomMeal;
+		JTextField nextXMealsInput;
 		
 		
 		calendarPane = new JTabbedPane();

@@ -8,8 +8,6 @@ import java.util.*;
 public class MealCalendar {
 	private ArrayList<Meal> meals;
 	private LocalDateTime now;
-	private Date date;
-	//private int dayOfYear;
 	public final static String MEALLISTPATH = "src/" + MealCalendar.class.getPackageName().replaceFirst(".model","") + "/";
 	
 	public MealCalendar(String fileName) {
@@ -40,8 +38,16 @@ public class MealCalendar {
 			
 		}catch(FileNotFoundException e) {
 			System.out.println("I'm sorry, we could not find that file");
-		}		
+		}
 		
+		/* This list is roated so that the returned list appears as though it has been running since jan 1st. This 
+		 * means that regardless of when the list is intilized, it will have the same meals for the same real world date,
+		 * as the getDayOfYear method will return a different value on different days, rotating the list by one for each 
+		 * real world day that has passed and giving the program the appearance of moving through the list itself as real 
+		 * time goes on. The int needs to be negavtive so that the list progress left to right, with the meal on the left 
+		 * most side going back to the right most side, or the end, rather than the meal at the end being tranfered to the begining 
+		 * */		 
+		Collections.rotate(returnMeals, -now.getDayOfYear());
 		return returnMeals;
 	}
 	
@@ -63,14 +69,14 @@ public class MealCalendar {
 					for(int n=0; n<menuRepeats; n++) {
 						for(int i=0; i<meals.size(); i++) {
 							nextMeals.add(meals.get(i));
-						}//inner for
-					}//outter for
+						}
+					}
 					if(lastMenu != 0) {
 						for(int i=0; i<lastMenu; i++) {
 							nextMeals.add(meals.get(i));
-						}//for
-					}//lastMenu if
-				}//repeats if
+						}
+					}
+				}
 			}else {
 				for(int i=0; i<numOfMeals; i++) {
 					nextMeals.add(meals.get(i));
@@ -92,13 +98,15 @@ public class MealCalendar {
 		MealCalendar mc = new MealCalendar("ListOfMeals");
 		System.out.println(MEALLISTPATH);
 		System.out.println(mc.meals);
-		System.out.println(mc.now);
-		ArrayList<Meal> nextMeals = mc.getNextMeals(9);
-		Collections.shuffle(nextMeals);
+		ArrayList<Meal> nextMeals = mc.getNextMeals(15);
+		System.out.println(nextMeals);
+		Collections.rotate(nextMeals, -2);
+		
 		System.out.println(nextMeals);
 		int i = mc.now.getDayOfWeek().getValue();
-		System.out.println(i);
-		mc.date = new Date(100,1,30);
-		System.out.println(mc.date);
+		int n = mc.now.getDayOfYear();
+		System.out.println(i + "  " + n);
+		
+
 	}
 }
