@@ -3,6 +3,7 @@ package mealCalendar.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 //import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -68,7 +70,7 @@ public class MealCalendarGUI {
 		JButton nextMonthsMeals = new JButton("Get a Months Worth of Meals");
 		nextMonthsMeals.setPreferredSize(new Dimension(215, 30));
 		nextMonthsMeals.setFont(font);
-		nextMonthsMeals.addActionListener(e -> showMonthsMeals());
+		nextMonthsMeals.addActionListener(e -> showMonthsMeals()); //needs improvement
 		panel.add(nextMonthsMeals);
 		layout.putConstraint(SpringLayout.NORTH, nextMonthsMeals, 100, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, nextMonthsMeals, 350, SpringLayout.WEST, panel);
@@ -95,8 +97,20 @@ public class MealCalendarGUI {
 	
 	private void showMonthsMeals() {
 		panelCount++;
-		JScrollPane monthOfMeals = new JScrollPane();
-		calendarPane.add("Month "+panelCount, monthOfMeals);
+		
+		JPanel gridOfMeals = new JPanel();
+		gridOfMeals.setLayout(new GridLayout(7,5));
+		for(int i=0; i<7*5; i++) {
+			JTextArea singleMeal = new JTextArea(mealCalendar.getRandomMeal());
+			singleMeal.setEditable(false);
+			singleMeal.setLineWrap(true);
+			gridOfMeals.add(singleMeal);
+		}
+		
+		
+		JScrollPane monthOfMeals = new JScrollPane(gridOfMeals);
+		
+		calendarPane.add("Month " + panelCount, monthOfMeals);
 		calendarPane.setSelectedIndex(panelCount);
 		
 	}
@@ -105,7 +119,6 @@ public class MealCalendarGUI {
 		JFrame randomFrame = new JFrame();
 		JOptionPane.showMessageDialog(randomFrame,"The random meal selected is: " 
 		+ mealCalendar.getRandomMeal(), "Random Meal", JOptionPane.PLAIN_MESSAGE);
-		
 	}
 	
 	private void exit() {

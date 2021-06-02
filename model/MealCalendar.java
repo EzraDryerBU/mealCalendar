@@ -100,6 +100,10 @@ public class MealCalendar {
 		return meals.size();
 	}
 	
+	public String toString() {
+		return meals.toString();
+	}
+	
 	public static void main(String[] args) {
 		MealCalendar mc = new MealCalendar("ListOfMeals");
 		System.out.println(MEALLISTPATH);
@@ -113,6 +117,7 @@ public class MealCalendar {
 		int n = mc.now.getDayOfYear();
 		System.out.println(i + "  " + n);
 		
+		System.out.println(mc.toString());
 
 	}
 }
