@@ -74,7 +74,7 @@ public class MealCalendarGUI {
 		JButton getRandomMeal = new JButton("Get a Random Meal");		
 		getRandomMeal.setPreferredSize(new Dimension(215, 30));
 		getRandomMeal.setFont(font);
-		//need an action listener
+		getRandomMeal.addActionListener(e -> mealCalendar.getRandomMeal());
 		panel.add(getRandomMeal);
 		layout.putConstraint(SpringLayout.NORTH, getRandomMeal, 20, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, getRandomMeal, 350, SpringLayout.WEST, panel);

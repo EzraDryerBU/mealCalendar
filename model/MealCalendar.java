@@ -86,6 +86,12 @@ public class MealCalendar {
 			return nextMeals;
 	}
 	
+	public String getRandomMeal() {
+		Random random = new Random();
+		int i = random.nextInt(meals.size()-1);
+		return meals.get(i).toString();
+	}
+	
 	public LocalDateTime getTodaysDate() {
 		return now;
 	}
