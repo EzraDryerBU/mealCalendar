@@ -1,11 +1,13 @@
 package mealCalendar.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -74,17 +76,27 @@ public class MealCalendarGUI {
 		JButton getRandomMeal = new JButton("Get a Random Meal");		
 		getRandomMeal.setPreferredSize(new Dimension(215, 30));
 		getRandomMeal.setFont(font);
-		getRandomMeal.addActionListener(e -> mealCalendar.getRandomMeal());
+		getRandomMeal.addActionListener(e -> showRandomMeal()); //needs work
 		panel.add(getRandomMeal);
 		layout.putConstraint(SpringLayout.NORTH, getRandomMeal, 20, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, getRandomMeal, 350, SpringLayout.WEST, panel);
 		
+		scroller = new JScrollPane(panel);
 		
 		calendarPane = new JTabbedPane();
-		scroller = new JScrollPane(panel);
 		calendarPane.add("Input", scroller);
+		int inputIndex = calendarPane.indexOfTab("Input");
+		calendarPane.setBackgroundAt(inputIndex, Color.DARK_GRAY);
+		calendarPane.setForegroundAt(inputIndex, Color.WHITE);
 		frame.add(calendarPane);
 		//frame.pack(); //messing with this, might be useful
+	}
+	
+	private void showRandomMeal() {
+		JFrame randomFrame = new JFrame();
+		JOptionPane.showMessageDialog(randomFrame,"The random meal selected is: " 
+		+ mealCalendar.getRandomMeal(), "Random Meal", JOptionPane.PLAIN_MESSAGE);
+		
 	}
 	
 	private void exit() {
