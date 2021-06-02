@@ -24,6 +24,7 @@ public class MealCalendarGUI {
 	private JScrollPane scroller;
 	private JPanel panel;
 	private SpringLayout layout;
+	private int panelCount;
 	
 	
 	public void setModel(MealCalendar m) {
@@ -67,7 +68,7 @@ public class MealCalendarGUI {
 		JButton nextMonthsMeals = new JButton("Get a Months Worth of Meals");
 		nextMonthsMeals.setPreferredSize(new Dimension(215, 30));
 		nextMonthsMeals.setFont(font);
-		//need an action listener
+		nextMonthsMeals.addActionListener(e -> showMonthsMeals());
 		panel.add(nextMonthsMeals);
 		layout.putConstraint(SpringLayout.NORTH, nextMonthsMeals, 100, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, nextMonthsMeals, 350, SpringLayout.WEST, panel);
@@ -76,7 +77,7 @@ public class MealCalendarGUI {
 		JButton getRandomMeal = new JButton("Get a Random Meal");		
 		getRandomMeal.setPreferredSize(new Dimension(215, 30));
 		getRandomMeal.setFont(font);
-		getRandomMeal.addActionListener(e -> showRandomMeal()); //needs work
+		getRandomMeal.addActionListener(e -> showRandomMeal());
 		panel.add(getRandomMeal);
 		layout.putConstraint(SpringLayout.NORTH, getRandomMeal, 20, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, getRandomMeal, 350, SpringLayout.WEST, panel);
@@ -90,6 +91,14 @@ public class MealCalendarGUI {
 		calendarPane.setForegroundAt(inputIndex, Color.WHITE);
 		frame.add(calendarPane);
 		//frame.pack(); //messing with this, might be useful
+	}
+	
+	private void showMonthsMeals() {
+		panelCount++;
+		JScrollPane monthOfMeals = new JScrollPane();
+		calendarPane.add("Month "+panelCount, monthOfMeals);
+		calendarPane.setSelectedIndex(panelCount);
+		
 	}
 	
 	private void showRandomMeal() {
