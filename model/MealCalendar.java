@@ -38,7 +38,8 @@ public class MealCalendar {
 			
 		}catch(FileNotFoundException e) {
 			System.out.println("I'm sorry, we could not find that file");
-		}
+			
+		}		
 		
 		/* This list is roated so that the returned list appears as though it has been running since jan 1st. This 
 		 * means that regardless of when the list is intilized, it will have the same meals for the same real world date,
@@ -88,7 +89,7 @@ public class MealCalendar {
 	
 	public String getRandomMeal() {
 		Random random = new Random();
-		int i = random.nextInt(meals.size()-1);
+		int i = random.nextInt(meals.size());
 		return meals.get(i).toString();
 	}
 	

@@ -1,21 +1,27 @@
 package mealCalendar.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+//import java.awt.GridLayout;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
+//import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 //import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+//import javax.swing.border.Border;
 
 import mealCalendar.model.*;
 
@@ -98,16 +104,29 @@ public class MealCalendarGUI {
 	private void showMonthsMeals() {
 		panelCount++;
 		
+		String[] dayNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 		JPanel gridOfMeals = new JPanel();
-		gridOfMeals.setLayout(new GridLayout(7,5));
-		for(int i=0; i<7*5; i++) {
-			JTextArea singleMeal = new JTextArea(mealCalendar.getRandomMeal());
+		gridOfMeals.setLayout(new GridLayout(5,7));
+		//JTable gridOfMeals = new JTable(5,7);
+		//mealsPanel.setLayout(new BorderLayout());
+		
+		//gridOfMeals.setRowHeight(116);
+		
+		//gridOfMeals.getColumnModel().getColumn(0).setPreferredWidth(190);
+		//gridOfMeals.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		for(int i=0; i<31; i++) {
+			JEditorPane singleMeal = new JEditorPane();
+			singleMeal.setContentType("text/html");
+			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + mealCalendar.getRandomMeal()+"</p></html>");
 			singleMeal.setEditable(false);
-			singleMeal.setLineWrap(true);
+			//singleMeal.setLineWrap(true);
+			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			//singleMeal.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+			
 			gridOfMeals.add(singleMeal);
 		}
 		
-		
+		//mealsPanel.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(gridOfMeals);
 		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
