@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -98,6 +99,7 @@ public class MealCalendarGUI {
 	private void showMonthsMeals() {
 		panelCount++;
 		
+		ArrayList<Meal> meals = mealCalendar.getNextMeals(31);
 		String[] dayNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 		JPanel labeledGrid = new JPanel();
 		SpringLayout springLay = new SpringLayout();
@@ -108,26 +110,27 @@ public class MealCalendarGUI {
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
 		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
 		
-		for(int i=0; i<7; i++) {
+		
+		for(int i=0; i<7; i++) { //this loop adds all the weekday names and 
 		JLabel dayLabel = new JLabel(dayNames[i]);
 		dayLabel.setFont(new Font("Serif", Font.BOLD, 14));
 		labeledGrid.add(dayLabel);
 		springLay.putConstraint(SpringLayout.WEST, dayLabel, 25+(115*i), SpringLayout.WEST, labeledGrid); 
 		}
-		//gridOfMeals.add(sun);
 		
 		for(int i=0; i<31; i++) {
 			JEditorPane singleMeal = new JEditorPane();
 			singleMeal.setContentType("text/html");
-			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + mealCalendar.getRandomMeal()+"</p></html>");
+			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + mealCalendar.getRandomMeal() + "</p></html>");
 			singleMeal.setEditable(false);
-			//singleMeal.setLineWrap(true);
 			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-			//singleMeal.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
 			
 			gridOfMeals.add(singleMeal);
 		}
-		
+		JButton closeTab = new JButton("Close");
+		int currentIndex = panelCount;
+		closeTab.addActionListener(e -> closeTab(currentIndex));
+		gridOfMeals.add(closeTab);
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
@@ -139,6 +142,12 @@ public class MealCalendarGUI {
 		JFrame randomFrame = new JFrame();
 		JOptionPane.showMessageDialog(randomFrame,"The random meal selected is: " 
 		+ mealCalendar.getRandomMeal(), "Random Meal", JOptionPane.PLAIN_MESSAGE);
+		
+	}
+	
+	private void closeTab(int currentPanel) {
+		calendarPane.remove(currentPanel);
+		panelCount--;
 	}
 	
 	private void exit() {
