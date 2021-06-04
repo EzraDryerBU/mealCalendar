@@ -128,8 +128,8 @@ public class MealCalendarGUI {
 			gridOfMeals.add(singleMeal);
 		}
 		JButton closeTab = new JButton("Close");
-		int currentIndex = panelCount;
-		closeTab.addActionListener(e -> closeTab(currentIndex));
+		//int currentIndex = panelCount;
+		closeTab.addActionListener(e -> closeTab());
 		gridOfMeals.add(closeTab);
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
@@ -145,8 +145,11 @@ public class MealCalendarGUI {
 		
 	}
 	
-	private void closeTab(int currentPanel) {
-		calendarPane.remove(currentPanel);
+	private void closeTab() {
+		for(int i=panelCount; i>calendarPane.getSelectedIndex(); i--) {
+			calendarPane.setTabComponentAt(i, new JLabel("Month "+(i-1)));
+		}
+		calendarPane.remove(calendarPane.getSelectedIndex());
 		panelCount--;
 	}
 	
