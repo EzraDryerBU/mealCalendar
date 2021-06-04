@@ -1,27 +1,21 @@
 package mealCalendar.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-//import java.awt.GridLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-//import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-//import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-//import javax.swing.border.Border;
 
 import mealCalendar.model.*;
 
@@ -41,7 +35,7 @@ public class MealCalendarGUI {
 	
 	private void createAndShowGUI() {
 		frame = new JFrame("Meal Calendar");
-		frame.setSize(800, 650);
+		frame.setSize(820, 650);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(WindowListenerFactory.windowClosingFactory(e -> exit()));
 		frame.setLocationRelativeTo(null);
@@ -105,15 +99,23 @@ public class MealCalendarGUI {
 		panelCount++;
 		
 		String[] dayNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+		JPanel labeledGrid = new JPanel();
+		SpringLayout springLay = new SpringLayout();
+		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
-		gridOfMeals.setLayout(new GridLayout(5,7));
-		//JTable gridOfMeals = new JTable(5,7);
-		//mealsPanel.setLayout(new BorderLayout());
+		GridLayout gridLay = new GridLayout(5,7);
+		gridOfMeals.setLayout(gridLay);
+		gridOfMeals.setPreferredSize(new Dimension(800,560));
+		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
 		
-		//gridOfMeals.setRowHeight(116);
+		for(int i=0; i<7; i++) {
+		JLabel dayLabel = new JLabel(dayNames[i]);
+		dayLabel.setFont(new Font("Serif", Font.BOLD, 14));
+		labeledGrid.add(dayLabel);
+		springLay.putConstraint(SpringLayout.WEST, dayLabel, 25+(115*i), SpringLayout.WEST, labeledGrid); 
+		}
+		//gridOfMeals.add(sun);
 		
-		//gridOfMeals.getColumnModel().getColumn(0).setPreferredWidth(190);
-		//gridOfMeals.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		for(int i=0; i<31; i++) {
 			JEditorPane singleMeal = new JEditorPane();
 			singleMeal.setContentType("text/html");
@@ -126,9 +128,8 @@ public class MealCalendarGUI {
 			gridOfMeals.add(singleMeal);
 		}
 		
-		//mealsPanel.add(gridOfMeals);
-		JScrollPane monthOfMeals = new JScrollPane(gridOfMeals);
-		
+		labeledGrid.add(gridOfMeals);
+		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
 		calendarPane.setSelectedIndex(panelCount);
 		
