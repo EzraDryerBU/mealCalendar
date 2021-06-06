@@ -27,7 +27,9 @@ public class MealCalendarGUI {
 	private JScrollPane scroller;
 	private JPanel panel;
 	private SpringLayout layout;
+	private JTextField nextXMealsInput;
 	private int panelCount;
+	private String[] dayNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 	
 	
 	public void setModel(MealCalendar m) {
@@ -53,20 +55,20 @@ public class MealCalendarGUI {
 		layout.putConstraint(SpringLayout.NORTH, nextMealsLabel, 200, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, nextMealsLabel, 10, SpringLayout.WEST, panel);
 		
-		JButton nextXMealsButton = new JButton("Get Next X Amount of Meals");
-		nextXMealsButton.setPreferredSize(new Dimension(215,30));
-		nextXMealsButton.setFont(font);
-		//need to add a listener event for when this button is clicked
-		panel.add(nextXMealsButton);
-		layout.putConstraint(SpringLayout.NORTH, nextXMealsButton, 192, SpringLayout.WEST, panel);
-		layout.putConstraint(SpringLayout.WEST, nextXMealsButton, 350, SpringLayout.WEST, panel);
-		
-		JTextField nextXMealsInput = new JTextField();
+		nextXMealsInput = new JTextField();
 		nextXMealsInput.setEditable(true);
 		nextXMealsInput.setPreferredSize(new Dimension(45, 20));
 		panel.add(nextXMealsInput);
 		layout.putConstraint(SpringLayout.NORTH, nextXMealsInput, 200, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, nextXMealsInput, 300, SpringLayout.WEST, panel);
+		
+		JButton nextXMealsButton = new JButton("Get Next X Amount of Meals");
+		nextXMealsButton.setPreferredSize(new Dimension(215,30));
+		nextXMealsButton.setFont(font);
+		nextXMealsButton.addActionListener(e -> showXMeals(nextXMealsInput.getText()));
+		panel.add(nextXMealsButton);
+		layout.putConstraint(SpringLayout.NORTH, nextXMealsButton, 192, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, nextXMealsButton, 350, SpringLayout.WEST, panel);
 		
 		JButton nextMonthsMeals = new JButton("Get a Months Worth of Meals");
 		nextMonthsMeals.setPreferredSize(new Dimension(215, 30));
@@ -100,7 +102,7 @@ public class MealCalendarGUI {
 		panelCount++;
 		
 		ArrayList<Meal> meals = mealCalendar.getNextMeals(31);
-		String[] dayNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+		
 		JPanel labeledGrid = new JPanel();
 		SpringLayout springLay = new SpringLayout();
 		labeledGrid.setLayout(springLay);
@@ -138,11 +140,66 @@ public class MealCalendarGUI {
 		
 	}
 	
+	private void showXMeals(String numberOfMeals) {
+		int numOfMeals;
+		
+		try {
+			numOfMeals = Integer.parseInt(numberOfMeals);
+			panelCount++;
+			nextXMealsInput.setText("");
+		}catch(NumberFormatException e){
+			JFrame parseError = new JFrame();
+			JOptionPane.showMessageDialog(parseError,"I'm sorry, that input was invalid", "Could Not Parse"
+					+ " User Input", JOptionPane.ERROR_MESSAGE);
+			nextXMealsInput.setText("");
+			return;
+		}
+		
+		ArrayList<Meal> meals = mealCalendar.getNextMeals(numOfMeals);
+		
+		JPanel labeledGrid = new JPanel();
+		SpringLayout springLay = new SpringLayout();
+		labeledGrid.setLayout(springLay);
+		JPanel gridOfMeals = new JPanel();
+		GridLayout gridLay = new GridLayout();
+		gridOfMeals.setLayout(gridLay);
+		gridOfMeals.setPreferredSize(new Dimension(800,560));
+		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
+		
+		
+		for(int i=0; i<7; i++) { //this loop adds all the weekday names and 
+		JLabel dayLabel = new JLabel(dayNames[i]);
+		dayLabel.setFont(new Font("Serif", Font.BOLD, 14));
+		labeledGrid.add(dayLabel);
+		springLay.putConstraint(SpringLayout.WEST, dayLabel, 25+(115*i), SpringLayout.WEST, labeledGrid); 
+		}
+		
+		for(int i=0; i<meals.size(); i++) {
+			JEditorPane singleMeal = new JEditorPane();
+			singleMeal.setContentType("text/html");
+			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + meals.get(i) + "</p></html>");
+			singleMeal.setEditable(false);
+			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			
+			gridOfMeals.add(singleMeal);
+		}
+		JButton closeTab = new JButton("Close");
+		closeTab.addActionListener(e -> closeTab());
+		gridOfMeals.add(closeTab);
+		labeledGrid.add(gridOfMeals);
+		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
+		calendarPane.add("Month " + panelCount, monthOfMeals);
+		calendarPane.setSelectedIndex(panelCount);
+		
+		
+		return;
+	}
+	
 	private void showRandomMeal() {
 		JFrame randomFrame = new JFrame();
 		JOptionPane.showMessageDialog(randomFrame,"The random meal selected is: " 
 		+ mealCalendar.getRandomMeal(), "Random Meal", JOptionPane.PLAIN_MESSAGE);
-		
+		return;
 	}
 	
 	private void closeTab() {
@@ -151,6 +208,7 @@ public class MealCalendarGUI {
 		}
 		calendarPane.remove(calendarPane.getSelectedIndex());
 		panelCount--;
+		return;
 	}
 	
 	private void exit() {
