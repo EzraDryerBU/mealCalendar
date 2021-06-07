@@ -3,6 +3,7 @@ package mealCalendar.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -108,10 +109,10 @@ public class MealCalendarGUI {
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
 		GridLayout gridLay = new GridLayout(5,7);
+		GridBagLayout bagLay = new GridBagLayout();
 		gridOfMeals.setLayout(gridLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
 		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
-		
 		
 		for(int i=0; i<7; i++) { //this loop adds all the weekday names and 
 		JLabel dayLabel = new JLabel(dayNames[i]);
@@ -149,10 +150,20 @@ public class MealCalendarGUI {
 			nextXMealsInput.setText("");
 		}catch(NumberFormatException e){
 			JFrame parseError = new JFrame();
-			JOptionPane.showMessageDialog(parseError,"I'm sorry, that input was invalid", "Could Not Parse"
+			JOptionPane.showMessageDialog(parseError,"I'm sorry, that input was invalid. Please enter a number greater "
+					+ "than zero. " + numberOfMeals + "<- Why did you even enter this, are you stupid?!?", "Could Not Parse"
 					+ " User Input", JOptionPane.ERROR_MESSAGE);
 			nextXMealsInput.setText("");
 			return;
+		}
+		
+		if(numOfMeals <= 0) {
+			JFrame parseError = new JFrame();
+			JOptionPane.showMessageDialog(parseError,"I'm sorry, that input was invalid. Please enter a number greater "
+					+ "than zero.", "Zero or Negative"
+					+ " User Input", JOptionPane.ERROR_MESSAGE);
+			nextXMealsInput.setText("");
+			return;		
 		}
 		
 		ArrayList<Meal> meals = mealCalendar.getNextMeals(numOfMeals);
@@ -161,7 +172,10 @@ public class MealCalendarGUI {
 		SpringLayout springLay = new SpringLayout();
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
-		GridLayout gridLay = new GridLayout();
+		GridLayout gridLay = new GridLayout(0,7);
+		GridBagLayout bagLay = new GridBagLayout();
+		//gridLay.setRows(0);
+		//gridLay.setColumns(7);
 		gridOfMeals.setLayout(gridLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
 		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
