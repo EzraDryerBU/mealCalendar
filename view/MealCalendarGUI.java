@@ -113,8 +113,8 @@ public class MealCalendarGUI {
 		GridBagLayout bagLay = new GridBagLayout();
 		GridBagConstraints bagCon = new GridBagConstraints();
 		bagCon.fill = GridBagConstraints.BOTH;
-		bagCon.weightx = 0.4;
-		bagCon.weighty = 0.4;
+		bagCon.weightx = 0.5;
+		bagCon.weighty = 0.5;
 		
 		gridOfMeals.setLayout(bagLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
@@ -129,22 +129,22 @@ public class MealCalendarGUI {
 		
 		for(int i=0; i<31; i++) {
 			JEditorPane singleMeal = new JEditorPane();
-			//singleMeal.setPreferredSize(new Dimension(140, 140));
+			singleMeal.setPreferredSize(new Dimension(113, 113));
 			singleMeal.setContentType("text/html");
 			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + mealCalendar.getRandomMeal() + "</p></html>");
 			singleMeal.setEditable(false);
 			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-			bagCon.ipadx = 50;
-			bagCon.ipady = 50;
 			bagCon.gridx = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
 			bagCon.gridy = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
-			bagCon.anchor = GridBagConstraints.CENTER;
+			
 			
 			gridOfMeals.add(singleMeal, bagCon);
 		}
 		JButton closeTab = new JButton("Close");
 		closeTab.addActionListener(e -> closeTab());
-	//	bagCon.
+		int l = gridOfMeals.getComponents().length;
+		bagCon.gridx = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
+		bagCon.gridy = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
 		gridOfMeals.add(closeTab, bagCon);
 		//JScrollPane scrollGrid = new JScrollPane(gridOfMeals);
 		labeledGrid.add(gridOfMeals);
