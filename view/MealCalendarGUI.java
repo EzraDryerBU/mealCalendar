@@ -3,6 +3,7 @@ package mealCalendar.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -102,15 +103,20 @@ public class MealCalendarGUI {
 	private void showMonthsMeals() {
 		panelCount++;
 		
-		ArrayList<Meal> meals = mealCalendar.getNextMeals(31);
+		//ArrayList<Meal> meals = mealCalendar.getNextMeals(31);
 		
 		JPanel labeledGrid = new JPanel();
 		SpringLayout springLay = new SpringLayout();
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
-		GridLayout gridLay = new GridLayout(5,7);
+		//GridLayout gridLay = new GridLayout(5,7);
 		GridBagLayout bagLay = new GridBagLayout();
-		gridOfMeals.setLayout(gridLay);
+		GridBagConstraints bagCon = new GridBagConstraints();
+		bagCon.fill = GridBagConstraints.BOTH;
+		bagCon.weightx = 0.4;
+		bagCon.weighty = 0.4;
+		
+		gridOfMeals.setLayout(bagLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
 		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
 		
@@ -123,17 +129,24 @@ public class MealCalendarGUI {
 		
 		for(int i=0; i<31; i++) {
 			JEditorPane singleMeal = new JEditorPane();
+			//singleMeal.setPreferredSize(new Dimension(140, 140));
 			singleMeal.setContentType("text/html");
 			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + mealCalendar.getRandomMeal() + "</p></html>");
 			singleMeal.setEditable(false);
 			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			bagCon.ipadx = 50;
+			bagCon.ipady = 50;
+			bagCon.gridx = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
+			bagCon.gridy = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
+			bagCon.anchor = GridBagConstraints.CENTER;
 			
-			gridOfMeals.add(singleMeal);
+			gridOfMeals.add(singleMeal, bagCon);
 		}
 		JButton closeTab = new JButton("Close");
-		//int currentIndex = panelCount;
 		closeTab.addActionListener(e -> closeTab());
-		gridOfMeals.add(closeTab);
+	//	bagCon.
+		gridOfMeals.add(closeTab, bagCon);
+		//JScrollPane scrollGrid = new JScrollPane(gridOfMeals);
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
@@ -173,7 +186,7 @@ public class MealCalendarGUI {
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
 		GridLayout gridLay = new GridLayout(0,7);
-		GridBagLayout bagLay = new GridBagLayout();
+		//GridBagLayout bagLay = new GridBagLayout();
 		//gridLay.setRows(0);
 		//gridLay.setColumns(7);
 		gridOfMeals.setLayout(gridLay);
@@ -203,8 +216,7 @@ public class MealCalendarGUI {
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
-		calendarPane.setSelectedIndex(panelCount);
-		
+		calendarPane.setSelectedIndex(panelCount);	
 		
 		return;
 	}
