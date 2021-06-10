@@ -109,7 +109,6 @@ public class MealCalendarGUI {
 		SpringLayout springLay = new SpringLayout();
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
-		//GridLayout gridLay = new GridLayout(5,7);
 		GridBagLayout bagLay = new GridBagLayout();
 		GridBagConstraints bagCon = new GridBagConstraints();
 		bagCon.fill = GridBagConstraints.BOTH;
@@ -146,7 +145,6 @@ public class MealCalendarGUI {
 		bagCon.gridx = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
 		bagCon.gridy = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
 		gridOfMeals.add(closeTab, bagCon);
-		//JScrollPane scrollGrid = new JScrollPane(gridOfMeals);
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
@@ -164,7 +162,7 @@ public class MealCalendarGUI {
 		}catch(NumberFormatException e){
 			JFrame parseError = new JFrame();
 			JOptionPane.showMessageDialog(parseError,"I'm sorry, that input was invalid. Please enter a number greater "
-					+ "than zero. " + numberOfMeals + "<- Why did you even enter this, are you stupid?!?", "Could Not Parse"
+					+ "than zero. " + numberOfMeals, "Could Not Parse"
 					+ " User Input", JOptionPane.ERROR_MESSAGE);
 			nextXMealsInput.setText("");
 			return;
@@ -185,11 +183,14 @@ public class MealCalendarGUI {
 		SpringLayout springLay = new SpringLayout();
 		labeledGrid.setLayout(springLay);
 		JPanel gridOfMeals = new JPanel();
-		GridLayout gridLay = new GridLayout(0,7);
-		//GridBagLayout bagLay = new GridBagLayout();
-		//gridLay.setRows(0);
-		//gridLay.setColumns(7);
-		gridOfMeals.setLayout(gridLay);
+		//GridLayout gridLay = new GridLayout(0,7);
+		GridBagLayout bagLay = new GridBagLayout();
+		GridBagConstraints bagCon = new GridBagConstraints();
+		bagCon.fill = GridBagConstraints.BOTH;
+		bagCon.weightx = 0.5;
+		bagCon.weighty = 0.5;
+		
+		gridOfMeals.setLayout(bagLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
 		springLay.putConstraint(SpringLayout.NORTH, gridOfMeals, 20, SpringLayout.WEST, labeledGrid);
 		
@@ -207,12 +208,17 @@ public class MealCalendarGUI {
 			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + meals.get(i) + "</p></html>");
 			singleMeal.setEditable(false);
 			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			bagCon.gridx = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
+			bagCon.gridy = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
 			
-			gridOfMeals.add(singleMeal);
+			gridOfMeals.add(singleMeal, bagCon);
 		}
 		JButton closeTab = new JButton("Close");
 		closeTab.addActionListener(e -> closeTab());
-		gridOfMeals.add(closeTab);
+		int l = gridOfMeals.getComponents().length;
+		bagCon.gridx = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
+		bagCon.gridy = (l+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
+		gridOfMeals.add(closeTab, bagCon);
 		labeledGrid.add(gridOfMeals);
 		JScrollPane monthOfMeals = new JScrollPane(labeledGrid);		
 		calendarPane.add("Month " + panelCount, monthOfMeals);
