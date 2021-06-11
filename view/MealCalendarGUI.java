@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -75,7 +74,7 @@ public class MealCalendarGUI {
 		JButton nextMonthsMeals = new JButton("Get a Months Worth of Meals");
 		nextMonthsMeals.setPreferredSize(new Dimension(215, 30));
 		nextMonthsMeals.setFont(font);
-		nextMonthsMeals.addActionListener(e -> showMonthsMeals()); //needs improvement
+		nextMonthsMeals.addActionListener(e -> showMonthsMeals());
 		panel.add(nextMonthsMeals);
 		layout.putConstraint(SpringLayout.NORTH, nextMonthsMeals, 100, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, nextMonthsMeals, 350, SpringLayout.WEST, panel);
@@ -186,9 +185,10 @@ public class MealCalendarGUI {
 		//GridLayout gridLay = new GridLayout(0,7);
 		GridBagLayout bagLay = new GridBagLayout();
 		GridBagConstraints bagCon = new GridBagConstraints();
-		bagCon.fill = GridBagConstraints.BOTH;
-		bagCon.weightx = 0.5;
-		bagCon.weighty = 0.5;
+		//bagCon.fill = GridBagConstraints.BOTH;
+		bagCon.fill = GridBagConstraints.NONE;
+		bagCon.weightx = 1;
+		bagCon.weighty = 1;
 		
 		gridOfMeals.setLayout(bagLay);
 		gridOfMeals.setPreferredSize(new Dimension(800,560));
@@ -208,8 +208,10 @@ public class MealCalendarGUI {
 			singleMeal.setText("<html>" + (i+1) + "<br><br><p style=\"text-align:center;\">" + meals.get(i) + "</p></html>");
 			singleMeal.setEditable(false);
 			singleMeal.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			singleMeal.setPreferredSize(new Dimension(200,200));
 			bagCon.gridx = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())%7;
 			bagCon.gridy = (i+mealCalendar.getTodaysDate().getDayOfWeek().getValue())/7;
+			
 			
 			gridOfMeals.add(singleMeal, bagCon);
 		}
